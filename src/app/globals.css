@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap');
+@import "tailwindcss";
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Almarai', sans-serif;
+  background: #ffffff;
+  color: #2d2d2d;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+:root {
+  --green:     #015530;
+  --green-md:  #027a44;
+  --green-lt:  #e8f5ee;
+  --green-xs:  #f0faf4;
+  --gold:      #ebb968;
+  --gold-dk:   #d4a040;
+  --gold-lt:   #fdf8f0;
+  --dark:      #2d2d2d;
+  --muted:     #6b7280;
+  --border:    #e5e7eb;
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --shadow-sm: 0 2px 12px rgba(0,0,0,0.06);
+  --shadow-md: 0 6px 28px rgba(0,0,0,0.09);
+  --shadow-lg: 0 16px 56px rgba(0,0,0,0.12);
+  --shadow-green: 0 8px 32px rgba(1,85,48,0.18);
+  --shadow-gold:  0 8px 32px rgba(235,185,104,0.35);
+}
+
+::selection { background: var(--green); color: #fff; }
+
+/* ─── Scroll reveal ─── */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── Hover lift ─── */
+.lift { transition: transform 0.28s ease, box-shadow 0.28s ease; }
+.lift:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg) !important; }
+
+/* ─── Hover scale ─── */
+.scale-hover { transition: transform 0.22s ease; }
+.scale-hover:hover { transform: scale(1.03); }
+
+/* ─── Marquee ─── */
+@keyframes marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+.marquee { animation: marquee 34s linear infinite; }
+.marquee:hover { animation-play-state: paused; }
+
+/* ─── Pulse ─── */
+@keyframes pulseRing { 0%,100% { transform: scale(1); opacity:1 } 50% { transform: scale(1.5); opacity:.5 } }
+.pulse { animation: pulseRing 2.2s ease-in-out infinite; }
+
+/* ─── Float ─── */
+@keyframes floatY { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-8px) } }
+.float { animation: floatY 3.5s ease-in-out infinite; }
+
+/* ─── Gradient text ─── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-md) 50%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Card base ─── */
+.card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(1,85,48,0.15);
+}
+
+/* ─── Section label ─── */
+.section-label {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border-radius: 999px;
+  background: var(--green-lt);
+  color: var(--green);
+  margin-bottom: 18px;
+}
+
+/* ─── Smooth scrollbar ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f9f9f9; }
+::-webkit-scrollbar-thumb { background: rgba(1,85,48,0.25); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(1,85,48,0.45); }
+
+/* ─── Focus ring ─── */
+:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 8px; }
+
+/* ─── Hide Next.js dev toolbar ─── */
+nextjs-portal { display: none !important; }

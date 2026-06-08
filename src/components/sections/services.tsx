@@ -1,0 +1,164 @@
+"use client";
+import { useState, useEffect, useMemo } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Building2, Bus, Utensils, ArrowLeft, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { useLang } from "@/context/lang";
+
+const DATA = {
+  ar: [
+    { id:"housing",  icon:<Building2 size={24}/>, tag:"01 — الإسكان",  title:"خدمات الإسكان",   sub:"مجمعات متكاملة • امتثال MHRSD",           desc:"مجمعات سكنية مجهزة بالكامل: أمن 24/7، واي فاي، غرف متعددة التكوين، عيادة ميدانية — بيئة معيشية تليق بكل موظف.", img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1400&q=90" },
+    { id:"transport", icon:<Bus size={24}/>,       tag:"02 — النقل",    title:"خدمات النقل",     sub:"أسطول GPS محكم • توقيت مثالي",             desc:"أسطول حديث مكيّف مع سائقين محترفين وتتبع GPS فوري وبروتوكولات SLA صارمة لضمان وصول موظفيك في الوقت المحدد.", img:"https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1400&q=90" },
+    { id:"catering",  icon:<Utensils size={24}/>,  tag:"03 — التغذية",  title:"خدمات التغذية",   sub:"3 وجبات يومياً • معايير HACCP",             desc:"ثلاث وجبات ساخنة يومياً من مطابخ معتمدة وفق HACCP — قوائم متنوعة تراعي التنوع الثقافي، 100% حلال.", img:"https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1400&q=90" },
+  ],
+  en: [
+    { id:"housing",  icon:<Building2 size={24}/>, tag:"01 — HOUSING",   title:"Labor Housing",   sub:"MHRSD-Compliant • 24/7 Security",           desc:"Fully equipped residential camps with 24/7 security, Wi-Fi, configurable rooms, on-site clinic — a living standard worthy of every worker.", img:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1400&q=90" },
+    { id:"transport", icon:<Bus size={24}/>,       tag:"02 — TRANSPORT", title:"Staff Transport", sub:"GPS-Tracked Fleet • Shift-Aligned",          desc:"Modern AC fleet with licensed drivers and real-time GPS tracking — strict SLA protocols ensuring your workforce arrives on time, every shift.", img:"https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1400&q=90" },
+    { id:"catering",  icon:<Utensils size={24}/>,  tag:"03 — CATERING",  title:"Catering & Food", sub:"3 Daily Meals • HACCP Standards",           desc:"Three daily hot meals from HACCP-certified kitchens — multi-cuisine menus covering diverse workforce preferences. 100% Halal.", img:"https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1400&q=90" },
+  ],
+};
+
+export default function Services() {
+  const { lang } = useLang();
+  const items = DATA[lang];
+  const [active, setActive] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const fn = () => setIsDesktop(window.innerWidth >= 768);
+    fn(); window.addEventListener("resize", fn);
+    return () => window.removeEventListener("resize", fn);
+  }, []);
+
+  const gridStyle = useMemo(() => isDesktop
+    ? { gridTemplateColumns: items.map((_,i) => i===active ? "5fr" : "1fr").join(" ") }
+    : { gridTemplateRows:    items.map((_,i) => i===active ? "5fr" : "1fr").join(" ") }
+  , [active, isDesktop]);
+
+  return (
+    <section style={{ background:"#fff", padding: isDesktop ? "96px 32px" : "64px 20px" }}>
+      <div style={{ maxWidth:1280, margin:"0 auto" }}>
+        {/* Header */}
+        <motion.div initial={{ opacity:0, y:24 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.65 }}
+          style={{ textAlign:"center", marginBottom:52 }}>
+          <span className="section-label">{lang==="ar"?"ما نقدمه":"WHAT WE OFFER"}</span>
+          <h2 style={{ fontFamily:"Almarai", fontWeight:800, fontSize:"clamp(34px,4vw,52px)", color:"#1a1a1a", lineHeight:1.1, marginBottom:14 }}>
+            {lang==="ar"?"خدماتنا المتكاملة":"Our Integrated Services"}
+          </h2>
+          <p style={{ fontFamily:"Almarai", fontWeight:300, fontSize:17, color:"#6b7280", maxWidth:480, margin:"0 auto" }}>
+            {lang==="ar"
+              ? (isDesktop ? "مرّر الماوس على كل خدمة لتكتشف تفاصيلها" : "اضغط على كل خدمة لتكتشف تفاصيلها")
+              : (isDesktop ? "Hover over each service to discover its details" : "Tap a service card to explore details")}
+          </p>
+        </motion.div>
+
+        {/* Cards */}
+        <motion.ul initial={{ opacity:0, y:40 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.75, delay:0.1 }}
+          style={{
+            display:"grid", gap:12, listStyle:"none",
+            height: isDesktop ? 560 : "auto", minHeight: isDesktop ? "auto" : 580,
+            ...gridStyle,
+            ...(isDesktop ? { gridTemplateRows:"1fr" } : { gridTemplateColumns:"1fr" }),
+            transition:"grid-template-columns 0.58s cubic-bezier(0.34,1.08,0.64,1), grid-template-rows 0.58s cubic-bezier(0.34,1.08,0.64,1)",
+          }}>
+          {items.map((item, i) => {
+            const isActive = active === i;
+            return (
+              <li key={i}
+                /* Desktop: hover to expand; Mobile: click */
+                onMouseEnter={() => isDesktop && setActive(i)}
+                onClick={() => !isDesktop && setActive(i)}
+                style={{
+                  position:"relative", overflow:"hidden", borderRadius:28, cursor:"pointer",
+                  minWidth: isDesktop ? 72 : 0, minHeight: !isDesktop ? 68 : 0,
+                  boxShadow: isActive ? "0 24px 60px rgba(1,85,48,0.24)" : "0 4px 20px rgba(0,0,0,0.1)",
+                  transition:"box-shadow 0.4s ease",
+                }}>
+
+                {/* Image with zoom on hover */}
+                <img src={item.img} alt=""
+                  style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover",
+                    transition:"transform 0.75s ease, filter 0.5s",
+                    transform: isActive ? "scale(1.04)" : "scale(1.1)",
+                    filter: isActive ? "brightness(0.72) saturate(1.1)" : "brightness(0.45) saturate(0.7)" }} />
+
+                {/* Gradient */}
+                <div style={{ position:"absolute", inset:0, transition:"background 0.5s",
+                  background: isActive
+                    ? "linear-gradient(to top, rgba(1,85,48,0.97) 0%, rgba(1,85,48,0.5) 38%, rgba(0,0,0,0.1) 70%, transparent 100%)"
+                    : "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 60%, transparent 100%)" }} />
+
+                {/* Top accent */}
+                <div style={{ position:"absolute", top:0, inset:"0 0 auto 0", height:4,
+                  background:"linear-gradient(to right,#015530,#ebb968)",
+                  opacity: isActive ? 1 : 0, transition:"opacity 0.4s", borderRadius:"28px 28px 0 0" }} />
+
+                {/* Collapsed label — desktop */}
+                {isDesktop && !isActive && (
+                  <div style={{ position:"absolute", inset:0, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:8 }}>
+                    <span style={{ color:"rgba(255,255,255,0.5)", fontSize:9.5, letterSpacing:"0.2em", fontFamily:"Almarai", fontWeight:700, writingMode:"vertical-rl" }}>
+                      {item.title}
+                    </span>
+                    <span style={{ color:"rgba(255,255,255,0.28)", fontSize:9, fontFamily:"Almarai" }}>0{i+1}</span>
+                  </div>
+                )}
+
+                {/* Expanded content */}
+                <div style={{ position:"absolute", inset:0, display:"flex", flexDirection:"column", justifyContent:"flex-end", padding: isDesktop ? "36px 34px" : "24px 22px" }}>
+                  <AnimatePresence mode="wait">
+                    {isActive && (
+                      <motion.div key={`c${i}`} initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0, y:8 }} transition={{ duration:0.38 }}>
+                        <motion.div initial={{ scale:0.65, opacity:0 }} animate={{ scale:1, opacity:1 }} transition={{ delay:0.04, type:"spring", stiffness:220 }}
+                          style={{ width:52, height:52, borderRadius:17, marginBottom:16, background:"linear-gradient(135deg,rgba(235,185,104,0.6),#ebb968)", boxShadow:"0 8px 28px rgba(235,185,104,0.42)", display:"flex", alignItems:"center", justifyContent:"center", color:"#fff" }}>
+                          {item.icon}
+                        </motion.div>
+                        <motion.span initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:0.09 }}
+                          style={{ fontFamily:"Almarai", fontWeight:700, fontSize:11, letterSpacing:"0.18em", color:"#ebb968", display:"block", marginBottom:8 }}>
+                          {item.tag}
+                        </motion.span>
+                        <motion.h3 initial={{ opacity:0, y:8 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.13 }}
+                          style={{ fontFamily:"Almarai", fontWeight:800, fontSize:"clamp(22px,2vw,30px)", color:"#fff", marginBottom:10, lineHeight:1.2 }}>
+                          {item.title}
+                        </motion.h3>
+                        <motion.div initial={{ scaleX:0 }} animate={{ scaleX:1 }} transition={{ delay:0.18, duration:0.38 }}
+                          style={{ height:2, width:44, background:"linear-gradient(to right,#ebb968,transparent)", marginBottom:14, borderRadius:9999 }} />
+                        <motion.p initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:0.22 }}
+                          style={{ fontFamily:"Almarai", fontWeight:300, fontSize:14, color:"rgba(255,255,255,0.8)", lineHeight:1.9, maxWidth:340, marginBottom:18 }}>
+                          {item.desc}
+                        </motion.p>
+                        {/* ← Link to services page at the anchor */}
+                        <Link href={`/services#${item.id}`}
+                          style={{ display:"inline-flex", alignItems:"center", gap:6, fontFamily:"Almarai", fontWeight:700, fontSize:13, color:"#ebb968", textDecoration:"none", transition:"gap 0.22s" }}
+                          onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.gap="10px";}}
+                          onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.gap="6px";}}>
+                          {lang==="ar"?"اكتشف المزيد":"Learn More"}
+                          {lang==="ar"?<ArrowLeft size={14}/>:<ArrowRight size={14}/>}
+                        </Link>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Mobile collapsed */}
+                  {!isDesktop && !isActive && (
+                    <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+                      <span style={{ color:"rgba(255,255,255,0.7)" }}>{item.icon}</span>
+                      <span style={{ fontFamily:"Almarai", fontWeight:700, fontSize:16, color:"rgba(255,255,255,0.9)" }}>{item.title}</span>
+                    </div>
+                  )}
+                </div>
+              </li>
+            );
+          })}
+        </motion.ul>
+
+        {/* Dots */}
+        <div style={{ display:"flex", justifyContent:"center", gap:8, marginTop:28 }}>
+          {items.map((_,i) => (
+            <button key={i} onClick={() => setActive(i)}
+              style={{ height:5, borderRadius:9999, border:"none", cursor:"pointer", transition:"all 0.38s", width: i===active ? 36 : 8, background: i===active ? "#015530" : "#d1d5db" }} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
