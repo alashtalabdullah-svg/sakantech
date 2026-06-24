@@ -1,21 +1,35 @@
 <svg width="512" height="512" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <clipPath id="c"><rect width="100" height="100" rx="22"/></clipPath>
+    <clipPath id="c">
+      <rect width="100" height="100" rx="20"/>
+    </clipPath>
+    <clipPath id="g">
+      <polygon points="0,0 100,0 100,26 26,100 0,100"/>
+    </clipPath>
   </defs>
 
-  <rect width="100" height="100" rx="22" fill="#015530"/>
-
   <g clip-path="url(#c)">
-    <path d="M38 100 L100 38 L100 100 Z" fill="#c9a227"/>
 
-    <path d="M56 6 L86 22 L74 42 L44 26 Z" fill="white"/>
-    <path d="M74 42 L86 22 L86 52 L74 72 Z" fill="rgba(255,255,255,0.62)"/>
+    <!-- Gold background (lower-right) -->
+    <rect width="100" height="100" fill="#C9A030"/>
 
-    <path d="M42 28 L72 44 L60 64 L30 48 Z" fill="rgba(255,255,255,0.88)"/>
-    <path d="M60 64 L72 44 L72 74 L60 94 Z" fill="rgba(255,255,255,0.48)"/>
+    <!-- Dark green upper-left polygon -->
+    <polygon points="0,0 100,0 100,26 26,100 0,100" fill="#0A532A"/>
 
-    <path d="M29 82 L35 76 L41 82 L35 88 Z" fill="white"/>
+    <!-- White diagonal stripes — clipped to green area, running SW→NE -->
+    <g clip-path="url(#g)">
+      <!-- Stripe 1 (leftmost) -->
+      <polygon points="4,100 28,56 44,56 20,100" fill="white"/>
+      <!-- Stripe 2 -->
+      <polygon points="26,100 50,56 66,56 42,100" fill="rgba(255,255,255,0.82)"/>
+      <!-- Stripe 3 -->
+      <polygon points="48,84 70,40 86,40 64,84" fill="rgba(255,255,255,0.68)"/>
+      <!-- Stripe 4 (rightmost, partial) -->
+      <polygon points="68,70 90,26 104,26 82,70" fill="rgba(255,255,255,0.50)"/>
+    </g>
 
-    <path d="M6 36 Q18 50 6 64 L2 64 L2 36 Z" fill="rgba(0,0,0,0.22)"/>
+    <!-- Small dark square (lower-left of green area) -->
+    <rect x="6" y="76" width="11" height="11" rx="2" fill="#071810"/>
+
   </g>
 </svg>
