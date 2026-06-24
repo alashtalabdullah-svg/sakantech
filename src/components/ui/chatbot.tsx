@@ -5,8 +5,8 @@ import { MessageCircle, X, Send } from "lucide-react";
 import { useLang } from "@/context/lang";
 
 type Step = "name" | "email" | "phone" | "service" | "done";
-const SVCS_AR = ["خدمات الإسكان", "خدمات النقل", "خدمات التغذية", "الخدمات الثلاث"];
-const SVCS_EN = ["Labor Housing", "Staff Transport", "Catering & Food", "All Services"];
+const SVCS_AR = ["خدمات توفير القوى العاملة", "خدمات الإسكان", "خدمات النقل", "خدمات التغذية", "جميع الخدمات"];
+const SVCS_EN = ["Workforce Supply Services", "Labor Housing", "Staff Transport", "Catering & Food", "All Services"];
 
 export default function Chatbot() {
   const { lang } = useLang();
