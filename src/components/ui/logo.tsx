@@ -2,7 +2,7 @@
 
 interface Props { size?: "xs"|"sm"|"md"|"lg"; variant?: "dark"|"light"; }
 
-const heights: Record<string, number> = { xs: 28, sm: 40, md: 52, lg: 68 };
+const heights: Record<string, number> = { xs: 36, sm: 56, md: 72, lg: 92 };
 
 export default function Logo({ size = "md", variant = "dark" }: Props) {
   const h = heights[size];
@@ -11,7 +11,7 @@ export default function Logo({ size = "md", variant = "dark" }: Props) {
       display: "flex",
       alignItems: "center",
       flexShrink: 0,
-      padding: variant === "light" ? "5px 12px" : "2px 0",
+      padding: variant === "light" ? "4px 10px" : "2px 0",
       borderRadius: 12,
       background: variant === "light" ? "rgba(255,255,255,0.18)" : "transparent",
       backdropFilter: variant === "light" ? "blur(12px)" : "none",

@@ -51,7 +51,7 @@ export default function Chatbot() {
       const b = new FormData();
       Object.entries({ الاسم: updated.name, البريد: updated.email, الجوال: updated.phone, الخدمة: svc, المصدر: "Chatbot" }).forEach(([k, v]) => b.append(k, v));
       b.append("_subject", `طلب شات بوت — ${updated.name}`); b.append("_captcha", "false");
-      await fetch("https://formsubmit.co/ajax/Abdulaziz@sakan.sa", { method: "POST", headers: { Accept: "application/json" }, body: b });
+      await fetch("https://formsubmit.co/ajax/info@sakatech.com.sa", { method: "POST", headers: { Accept: "application/json" }, body: b });
     } catch {}
     setTimeout(() => add("bot", lang === "ar" ? "شكراً جزيلاً! 🎉 سيتواصل معك فريقنا قريباً." : "Thank you! 🎉 Our team will contact you very soon."), 700);
   };
@@ -91,7 +91,7 @@ export default function Chatbot() {
             </div>
 
             {/* Messages */}
-            <div style={{ flex: 1, overflowY: "auto", padding: "16px 14px", background: "#f7f5f0", display: "flex", flexDirection: "column", gap: 10, minHeight: 220, maxHeight: 280 }}>
+            <div style={{ flex: 1, overflowY: "auto", padding: "16px 14px", background: "#F8F9FA", display: "flex", flexDirection: "column", gap: 10, minHeight: 220, maxHeight: 280 }}>
               {msgs.map((m, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
                   style={{ display: "flex", justifyContent: m.from === "bot" ? "flex-end" : "flex-start" }}>
